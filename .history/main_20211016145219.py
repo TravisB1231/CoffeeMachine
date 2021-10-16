@@ -36,43 +36,29 @@ resources = {
 def print_report():
     print(f"Water: {resources['water']}ml\nMilk: {resources['milk']}ml\nCoffee: {resources['coffee']}ml\nMoney: ${resources['money']}")
 
-def calc_payment():
-    quarters = int(input("Please insert coins.\nHow many quarters?: "))
+def calc_payment():    
+    print("Please insert coins.")
+    quarters = int(input("How many quarters?: "))
     dimes = int(input("How many dimes?: "))
     nickels = int(input("How many nickels?: "))
     pennies = int(input("How many pennies?: "))
     pay_val = (quarters * 0.25) + (dimes * 0.10) + (nickels * 0.05) + (pennies * 0.01)
     return pay_val
 
-def check_payment(drnk):
-    """Checks if payment is valid. Returns 0 for no, 1 for yes, and 2 for change is owed."""
+def check_valid_payment(drnk):
     valid_transaction = False
     payment = calc_payment()
-    if payment >= drnk["cost"]:
+    if drnk["cost"] <= payment:
         valid_transaction = True
         resources['money'] += drnk['cost']
-        if payment > drnk['cost']:
-            print(f"Here is ${payment - drnk['cost']} in change.")
     return valid_transaction
 
 def main():
-    still_running = True
-    while still_running:
-        choice = input("What would you like? (espresso/latte/cappuccino): ")
-        if choice.lower() == "report":
-                print_report()
-        else:
-            drink = MENU[choice]
-            valid_payment = check_payment(drink)
-            valid_resources = check_resources(drink)
-            if not valid_payment:
-                    print("Sorry that's not enough money. Money refunded.")
-            else:
-                if valid_resources:
-                    print(f"Here is your {drink}. Enjoy!")
-                #else:
-                    #print(f"Sorry there is not enough {}.")
+    choice = input("What would you like? (espresso/latte/cappuccino): ")
+    drink = MENU[choice]    
+    valid_payment = check_valid_payment(drink)
+    while not valid_payment:
+        print("Sorry that's not enough money. Money refunded.")
+        valid_payment = check_valid_payment(drink)
 
-                
-            
 main()

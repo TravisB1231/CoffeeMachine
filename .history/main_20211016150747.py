@@ -46,13 +46,13 @@ def calc_payment():
 
 def check_payment(drnk):
     """Checks if payment is valid. Returns 0 for no, 1 for yes, and 2 for change is owed."""
-    valid_transaction = False
+    valid_transaction = 0
     payment = calc_payment()
     if payment >= drnk["cost"]:
-        valid_transaction = True
+        valid_transaction = 1
         resources['money'] += drnk['cost']
         if payment > drnk['cost']:
-            print(f"Here is ${payment - drnk['cost']} in change.")
+            valid_transaction = 2
     return valid_transaction
 
 def main():
@@ -65,14 +65,11 @@ def main():
             drink = MENU[choice]
             valid_payment = check_payment(drink)
             valid_resources = check_resources(drink)
-            if not valid_payment:
+            match valid_payment:
+                case 0:
                     print("Sorry that's not enough money. Money refunded.")
-            else:
-                if valid_resources:
-                    print(f"Here is your {drink}. Enjoy!")
-                #else:
-                    #print(f"Sorry there is not enough {}.")
-
+                    break
+                case 1:
                 
             
 main()

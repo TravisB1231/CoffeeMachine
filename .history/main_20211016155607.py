@@ -70,8 +70,8 @@ def main():
             else:
                 if valid_resources:
                     print(f"Here is your {drink}. Enjoy!")
-                #else:
-                    #print(f"Sorry there is not enough {}.")
+                else:
+                    print(f"Sorry there is not enough {}.")
 
                 
             
