@@ -58,14 +58,15 @@ def validate_payment(drnk):
 
 def validate_resources(drnk):
     """Returns True if all resources are good. Otherwise it returns the insufficient resource name(s), 'water', 'milk', 'coffee'."""
-    valid_resources = True
-    low_ingredients = [req_ingredient for req_ingredient in drnk["ingredients"] if drnk["ingredients"][req_ingredient] > resources[req_ingredient]]
-    # if drnk["ingredients"][req_ingredient] > resources[req_ingredient]:    
-    #     low_ingredients.append(req_ingredient)
-    if len(low_ingredients) > 0:
-        return low_ingredients
-    else:
-        return valid_resources
+    valid_resources = False
+    low_ingredients = [] # [ingredient for ingredient in resources if drnk["ingredients"][ingredient] > resources[ingredient]]
+    for ingredient in resources:
+        if drnk["ingredients"][ingredient] > resources[ingredient]:    
+            low_ingredients.append(ingredient)
+        
+    print(low_ingredients)
+        
+    return valid_resources
 
 def main():
     still_running = True
@@ -89,4 +90,4 @@ def main():
             print("Invalid choice.")                
             
 #main()
-print(validate_resources(MENU['latte']))
+validate_resources(MENU['latte'])
